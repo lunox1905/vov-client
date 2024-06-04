@@ -11,7 +11,7 @@ let consumer
 export const Listen = () => {
     const { socket } = useContext(SocketContext);
     const audioRef = useRef(null);
-    const [ channelSlug, setChanelSlug ] = useState('')
+    const [ channelName, setChannelName ] = useState('')
     useEffect(() => {
         if (socket) {
             socket.on('connect', () => {
@@ -92,12 +92,12 @@ export const Listen = () => {
         console.log('stage4');
         await socket.emit('consume', {
             rtpCapabilities: device.rtpCapabilities,
-            channelSlug: channelSlug
+            channelName: channelName
         }, async ({ params }) => {
 
             if (params.error) {
                 console.log('error', params.error);
-                setChanelSlug('')
+                setChannelName('')
                 return
             }
 
@@ -108,20 +108,21 @@ export const Listen = () => {
                 rtpParameters: params.rtpParameters
             })
             const { track } = consumer
+            console.log(track)
             let audiostream = new MediaStream([track])
             audioRef.current.srcObject = audiostream
         })
     }
 
     useEffect(() => {
-        if(channelSlug) {
+        if(channelName) {
             goConsume()
             socket.on('reconnect', async () => {
                 createRecvTransport()
             })
         }
         
-    }, [channelSlug])
+    }, [channelName])
 
     return (
         <>
@@ -134,15 +135,15 @@ export const Listen = () => {
                         </div>
 
                         <div id="sharedBtns">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setChanelSlug('kenh1')}>Nghe kênh 1</button>
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setChannelName('Kênh 1')}>Nghe kênh 1</button>
                         </div>
 
                         <div id="sharedBtns">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setChanelSlug('kenh2')}>Nghe kênh 2</button>
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setChannelName('Kênh 2')}>Nghe kênh 2</button>
                         </div>
 
                         <div id="sharedBtns">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setChanelSlug('kenh3')}>Nghe kênh 3</button>
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setChannelName('Kênh 3')}>Nghe kênh 3</button>
                         </div>
                     </div>
                 </> : <>

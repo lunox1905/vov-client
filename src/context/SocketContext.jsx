@@ -4,7 +4,7 @@ import mediasoupClient from "mediasoup-client"
 
 const SocketContext = createContext();
  const SocketProvider = ({ children }) => {
-    const SERVER_URL = import.meta.env.SERVER_URL || 'https://thaichinh.top/mediasoup';
+    const SERVER_URL = import.meta.env.SERVER_URL || 'http://localhost:3000/mediasoup';
     const socket = useRef(null);
     const [isConnected, setIsConnected] = useState(false);
      useEffect(() => {

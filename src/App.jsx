@@ -13,6 +13,7 @@ import Layout from './views/Layout';
 import { Play } from './pages/Play';
 import { SocketProvider } from './context/SocketContext';
 import { Listen } from './pages/Listen';
+import { HlsListen } from './pages/HlsListen';
 function App() {
 
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="" element={<Home />}>
           <Route path="play" element={<Play />} />
           <Route path='listen' element={<Listen />} />
+          <Route path="hls" element={<HlsListen/>}/>
         </Route>
       </Route>
     )

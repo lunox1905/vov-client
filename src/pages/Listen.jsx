@@ -94,9 +94,9 @@ export const Listen = () => {
             rtpCapabilities: device.rtpCapabilities,
             channelName: channelName
         }, async ({ params }) => {
-
             if (params.error) {
                 console.log('error', params.error);
+                audioRef.current.pause();
                 setChannelName('')
                 return
             }
@@ -108,7 +108,6 @@ export const Listen = () => {
                 rtpParameters: params.rtpParameters
             })
             const { track } = consumer
-            console.log(track)
             let audiostream = new MediaStream([track])
             audioRef.current.srcObject = audiostream
         })

@@ -6,9 +6,7 @@ export const HlsPlayer = ({ src, autoPlay = true }) => {
     let hlsInstance = null;
     
     const startPlayback = () => {
-        console.log('v==========')
         if (audioRef.current) {
-            console.log('================')
             audioRef.current.play();
         }
     };

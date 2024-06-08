@@ -5,18 +5,32 @@ export const HlsListen = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [hlsAudioUrl,setHlsAudioUrl]=useState("")
     const { socket } = useContext(SocketContext)
+    const [channelName, setChannelName ] = useState('')
+
     useEffect(() => {
         if (socket) {
             socket.on("res_hls_link", data => {
-                console.log(data)
                 setHlsAudioUrl(data.link)
                 setIsPlaying((prevIsPlaying) =>true);
             } )
         }
-    },[socket] )
-    const playHls = (channel) => {
-        socket.emit("req_hls_link",{channel:channel})
-    }
+        if(channelName) {
+            socket.on('reconnect', async () => {
+                console.log(channelName)
+                setTimeout(() => {
+                    socket.emit("req_hls_link",{channel: channelName})
+                }, 2000)
+            })
+
+            socket.on("res_hls_link", data => {
+                setHlsAudioUrl(data.link)
+                setIsPlaying((prevIsPlaying) =>true);
+            } )
+
+            socket.emit("req_hls_link",{channel:channelName})
+        }
+        
+    }, [channelName, socket])
 
     return (
         <>
@@ -26,7 +40,9 @@ export const HlsListen = () => {
                 </div>
                 <div className="flex">
 
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>playHls("Kênh 1")}> Nghe kenh 1</button>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>setChannelName("Kênh 1")}> Nghe kenh 1</button>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>setChannelName("Kênh 2")}> Nghe kenh 2</button>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>setChannelName("Kênh 3")}> Nghe kenh 3</button>
                 </div>
             </div>
     </>)

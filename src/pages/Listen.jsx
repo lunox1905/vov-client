@@ -24,13 +24,6 @@ export const Listen = () => {
             };
         }
     }, [socket]);
-
-    // socket.on("closeproduce", () => {
-    //     const video = document.getElementById("remoteVideo")
-    //     // mediaRecorder.stop()
-    //     video.src = ''
-    // })
-
     const goConsume = () => {
         device === undefined ? getRtpCapabilities() : createRecvTransport()
     }
@@ -127,22 +120,22 @@ export const Listen = () => {
         <>
             {
                 socket != null ? <>
-                    <div className="p-3">
-
-                        <div id="sharedBtns">
-                            <audio ref={audioRef} id="remoteVideo" autoPlay ></audio>
+                    <div className=" w-screen mt-3" >
+                        <div className="m-3">
+                            <span className=""> Web play </span>
+                        </div>
+                        <div >
+                          
+                            <audio  ref={audioRef} controls  autoPlay style={{ width: '100%' }}></audio>
                         </div>
 
-                        <div id="sharedBtns">
+                        <div className="flex flex-col gap-2 max-w-[150px] mt-2">
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setChannelName('Kênh 1')}>Nghe kênh 1</button>
-                        </div>
-
-                        <div id="sharedBtns">
+                
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setChannelName('Kênh 2')}>Nghe kênh 2</button>
-                        </div>
-
-                        <div id="sharedBtns">
+                       
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setChannelName('Kênh 3')}>Nghe kênh 3</button>
+                    
                         </div>
                     </div>
                 </> : <>

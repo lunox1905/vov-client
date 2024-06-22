@@ -1,11 +1,11 @@
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet} from 'react-router-dom';
 
 import { HorizontalNav } from '../components/HorizontalNav';
 function Layout() {
     return (
         <div >
-            <HorizontalNav />
+            {/* <HorizontalNav /> */}
             <Outlet />
         </div>
     );

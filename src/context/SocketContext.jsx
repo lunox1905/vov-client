@@ -1,7 +1,5 @@
-import React, { createContext, useRef, useContext, useEffect, useState } from 'react';
+import React, { createContext, useRef,  useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import mediasoupClient from "mediasoup-client"
-
 const SocketContext = createContext();
  const SocketProvider = ({ children }) => {
     const SERVER_URL = import.meta.env.SERVER_URL || 'http://thaichinh.top/mediasoup';

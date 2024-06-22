@@ -34,12 +34,13 @@ export const HlsListen = () => {
 
     return (
         <>
-            <div className="w-screen">
-                <div className="flex max-w-full">
-                <HlsPlayer src={hlsAudioUrl} autoPlay={isPlaying} />
+            <div className="flex flex-col w-screen mt-3">
+                <div className="m-3">
+                    <span> HLS play</span>
                 </div>
-                <div className="flex">
-
+                <HlsPlayer src={hlsAudioUrl} autoPlay={isPlaying} />
+                <div className="flex flex-col gap-2 max-w-[150px] mt-2">
+              
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>setChannelName("Kênh 1")}> Nghe kenh 1</button>
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>setChannelName("Kênh 2")}> Nghe kenh 2</button>
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=>setChannelName("Kênh 3")}> Nghe kenh 3</button>

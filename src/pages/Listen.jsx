@@ -4,6 +4,8 @@ import { SocketError } from "./SocketError";
 import { SocketContext } from "../context/SocketContext";
 import * as mediasoupClient from "mediasoup-client"
 
+import axios from 'axios';
+const URL = import.meta.env.VITE_URL;
 let device
 let rtpCapabilities
 let consumerTransport
@@ -12,6 +14,7 @@ export const Listen = () => {
     const { socket } = useContext(SocketContext);
     const audioRef = useRef(null);
     const [ channelName, setChannelName ] = useState('')
+    const [ channels, setChannels ] = useState([])
     useEffect(() => {
         if (socket) {
             socket.on('connect', () => {
@@ -92,7 +95,7 @@ export const Listen = () => {
         console.log('stage4');
         await socket.emit('consume', {
             rtpCapabilities: device.rtpCapabilities,
-            channelName: channelName
+            channelId: channelName
         }, async ({ params }) => {
             if (params.error) {
                 console.log('error', params.error);
@@ -123,6 +126,13 @@ export const Listen = () => {
         
     }, [channelName])
 
+    useEffect(() => {
+        axios.get(`${URL}/channel/list`)
+        .then(res => {
+            setChannels(res.data.data);
+        })
+    }, [])
+
     return (
         <>
             {
@@ -132,18 +142,13 @@ export const Listen = () => {
                         <div id="sharedBtns">
                             <audio ref={audioRef} id="remoteVideo" autoPlay ></audio>
                         </div>
-
-                        <div id="sharedBtns">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setChannelName('Kênh 1')}>Nghe kênh 1</button>
-                        </div>
-
-                        <div id="sharedBtns">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setChannelName('Kênh 2')}>Nghe kênh 2</button>
-                        </div>
-
-                        <div id="sharedBtns">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setChannelName('Kênh 3')}>Nghe kênh 3</button>
-                        </div>
+                        {
+                            channels.map((channel, key)=> (
+                                <div key={key} id="sharedBtns">
+                                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setChannelName(channel._id)}>Nghe kênh {channel.name}</button>
+                                </div>
+                            ))
+                        }
                     </div>
                 </> : <>
                 

@@ -13,24 +13,17 @@ export const HlsListen = () => {
     useEffect(() => {
         if (socket) {
             socket.on("res_hls_link", data => {
-                console.log('=====:::', data)
                 setHlsAudioUrl(data.link)
-                setHlsAudioUrl(data.link)
-                setIsPlaying((prevIsPlaying) =>true);
+                setIsPlaying(true);
             } )
         }
         if(channelName) {
             socket.on('reconnect', async () => {
-                console.log(channelName)
+                setIsPlaying(false);
                 setTimeout(() => {
                     socket.emit("req_hls_link",{channelId: channelName})
-                }, 2000)
+                }, 3000)
             })
-            socket.on("res_hls_link", data => {
-                console.log('=====:::', data)
-                setHlsAudioUrl(data.link)
-                setIsPlaying((prevIsPlaying) =>true);
-            } )
 
             socket.emit("req_hls_link",{channelId:channelName})
         }

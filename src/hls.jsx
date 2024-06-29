@@ -18,6 +18,7 @@ export const HlsPlayer = ({ src, autoPlay = true }) => {
     };
 
     useEffect(() => {
+        console.log('===-------')
         const audio = audioRef.current;
         if (Hls.isSupported()) {
             hlsInstance = new Hls();
